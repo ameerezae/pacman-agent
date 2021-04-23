@@ -76,16 +76,16 @@ def tinyMazeSearch(problem):
 def generalSearchAlgorithm(problem, dataStructure) -> list:
     source = problem.getStartState()
     visited = []
-    dataStructure.push((source, [], None))
+    dataStructure.push((source, []))
     while not dataStructure.isEmpty():
-        node, path, cost = dataStructure.pop()
+        node, path = dataStructure.pop()
         if problem.isGoalState(node):
             return path
         if node not in visited:
             visited.append(node)
             for child, edge, c in problem.getSuccessors(node):
                 newPath = path + [edge]
-                dataStructure.push((child, newPath, c))
+                dataStructure.push((child, newPath))
     util.raiseNotDefined()
 
 
@@ -103,16 +103,17 @@ def uniformCostSearch(problem):
     source = problem.getStartState()
     priorityQueue = util.PriorityQueue()
     visited = []
-    priorityQueue.push((source, [], 0), None)
+    priorityQueue.push((source, []), None)
     while not priorityQueue.isEmpty():
-        node, path, cost = priorityQueue.pop()
+        node, path = priorityQueue.pop()
         if problem.isGoalState(node):
             return path
         if node not in visited:
             visited.append(node)
             for child, edge, c in problem.getSuccessors(node):
-                pathCost = problem.getCostOfActions(path + [edge])
-                priorityQueue.push((child, path + [edge], c), pathCost)
+                newPath = path + [edge]
+                gn = problem.getCostOfActions(newPath)
+                priorityQueue.push((child, newPath), gn)
     util.raiseNotDefined()
 
 
@@ -125,8 +126,23 @@ def nullHeuristic(state, problem=None):
 
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
+    source = problem.getStartState()
+    priorityQueue = util.PriorityQueue()
+    visited = []
+    hs = heuristic(source, problem)
+    priorityQueue.push((source, []), hs)
+    while not priorityQueue.isEmpty():
+        successor, action = priorityQueue.pop()
+        if problem.isGoalState(successor):
+            return action
+        if successor not in visited:
+            visited.append(successor)
+            for child, edge, c in problem.getSuccessors(successor):
+                newPath = action + [edge]
+                hn = heuristic(child, problem)
+                gn = problem.getCostOfActions(newPath)
+                fn = hn + gn
+                priorityQueue.push((child, newPath), fn)
     util.raiseNotDefined()
 
 
