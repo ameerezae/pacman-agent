@@ -86,7 +86,6 @@ def generalSearchAlgorithm(problem, dataStructure) -> list:
             for child, edge, c in problem.getSuccessors(node):
                 newPath = path + [edge]
                 dataStructure.push((child, newPath))
-    util.raiseNotDefined()
 
 
 def depthFirstSearch(problem):
@@ -114,7 +113,6 @@ def uniformCostSearch(problem):
                 newPath = path + [edge]
                 gn = problem.getCostOfActions(newPath)
                 priorityQueue.push((child, newPath), gn)
-    util.raiseNotDefined()
 
 
 def nullHeuristic(state, problem=None):
@@ -143,7 +141,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 gn = problem.getCostOfActions(newPath)
                 fn = hn + gn
                 priorityQueue.push((child, newPath), fn)
-    util.raiseNotDefined()
 
 
 # Abbreviations
