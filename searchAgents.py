@@ -387,7 +387,7 @@ def cornersHeuristic(state, problem):
             if not cornersVisitingStatus[index]:
                 dist = mazeDistance(current, corners[index], problem.gameState)
                 distancesToCorners.append(dist)
-        heuristic = max(distancesToCorners)
+        heuristic = max(distancesToCorners) - 1
         break
     return heuristic
 
